@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "WebViewJavascriptBridgeBase.h"
-#import "WebViewJavascriptBridge_JS.h"
+#import "WebViewJavascriptBridge_JS2.h"
 
 @implementation WebViewJavascriptBridgeBase {
     __weak id _webViewDelegate;
@@ -110,8 +110,9 @@ static int logMaxLength = 500;
     }
 }
 
+
 - (void)injectJavascriptFile {
-    NSString *js = WebViewJavascriptBridge_js();
+    NSString *js = WebViewJavascriptBridge_js2();
     [self _evaluateJavascript:js];
     if (self.startupMessageQueue) {
         NSArray* queue = self.startupMessageQueue;

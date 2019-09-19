@@ -94,7 +94,7 @@
 - (void)WKFlushMessageQueue {
     [_webView evaluateJavaScript:[_base webViewJavascriptFetchQueyCommand] completionHandler:^(NSString* result, NSError* error) {
         if (error != nil) {
-            NSLog(@"WebViewJavascriptBridge: WARNING: Error when trying to fetch data from WKWebView: %@", error);
+            NSLog(@"JtsjJSBridge: WARNING: Error when trying to fetch data from WKWebView: %@", error);
         }
         [_base flushMessageQueue:result];
     }];

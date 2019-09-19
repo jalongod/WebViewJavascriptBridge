@@ -31,7 +31,15 @@
         responseCallback(@"Response from testObjcCallback");
     }];
     
-    [_bridge callHandler:@"testJavascriptHandler" data:@{ @"foo":@"before ready" }];
+    [_bridge registerHandler:@"testGlobalJsBridge" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"testGlobalJsBridge success");
+        responseCallback(@"testGlobalJsBridge success");
+    }];
+    
+    [_bridge callHandler:@"testJavascriptHandler" data:@{ @"foo":@"before ready" } responseCallback:^(id responseData) {
+        NSLog(@"testJavascriptHandler responseCallback act");
+    }];
+    
     
     [self renderButtons:webView];
     [self loadExamplePage:webView];
@@ -43,6 +51,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     NSLog(@"webViewDidFinishLoad");
+    [webView stringByEvaluatingJavaScriptFromString:@""];
 }
 
 - (void)renderButtons:(UIWebView*)webView {
@@ -82,7 +91,9 @@
 }
 
 - (void)loadExamplePage:(UIWebView*)webView {
-    NSString* htmlPath = [[NSBundle mainBundle] pathForResource:@"ExampleApp" ofType:@"html"];
+//    NSString* htmlPath = [[NSBundle mainBundle] pathForResource:@"ExampleApp" ofType:@"html"];
+    NSString* htmlPath = [[NSBundle mainBundle] pathForResource:@"ExampleAppWithBridge" ofType:@"html"];
+
     NSString* appHtml = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
     NSURL *baseURL = [NSURL fileURLWithPath:htmlPath];
     [webView loadHTMLString:appHtml baseURL:baseURL];
