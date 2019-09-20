@@ -12,11 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^JSApiCallbackBlock)(id);
 
+//处理单个jsapi
 @protocol JSApiHandlerProtocol <NSObject>
 - (void)handler:(NSString *)name data:(NSDictionary *)data callback:(JSApiCallbackBlock)callback;
 @end
 
-
+//webview自带的jsapi
 @interface JSApiHandler : NSObject<JSApiHandlerProtocol>
 
 @end

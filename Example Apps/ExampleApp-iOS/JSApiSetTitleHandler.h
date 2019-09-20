@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
+//开发者自定义的jsapi
 @interface JSApiSetTitleHandler : NSObject<JSApiHandlerProtocol>
 
 @end

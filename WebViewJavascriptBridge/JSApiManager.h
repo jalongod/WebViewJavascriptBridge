@@ -12,11 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JSApiManager : NSObject
 
-- (BOOL)isApiNameValid:(NSString *)name;
-- (nullable NSString *)handlerNameForApiName:(NSString *)name;
-
 + (instancetype)sharedInstance;
 
+- (BOOL)isApiNameValid:(NSString *)name;
+- (nullable NSString *)handlerNameForApiName:(NSString *)name;
 
 @end
 
