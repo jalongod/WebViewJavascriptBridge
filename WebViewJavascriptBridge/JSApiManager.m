@@ -53,6 +53,8 @@
 - (void)loadJsApiList {
     //TODO:可以优化为从plist里边读取
     [self.jsApiDic setObject:@"JSApiSetTitleHandler" forKey:@"setTitle"];
+    [self.jsApiDic setObject:@"JSApiSetTitleHandler" forKey:@"setTitle2"];
+    [self.jsApiDic setObject:@"JSApiHandler" forKey:@"jtSetTitle"];
 }
 
 #pragma mark - lazy load

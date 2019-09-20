@@ -67,6 +67,29 @@
                     log('JS got response', response)
                 })
             }
+              
+              document.body.appendChild(document.createElement('br'))
+              
+              var callbackButton = document.getElementById('buttons').appendChild(document.createElement('button'))
+              callbackButton.innerHTML = 'SetTitle2'
+              callbackButton.onclick = function (e) {
+              e.preventDefault()
+              log('JS calling handler "SetTitle2"')
+              window.WebViewJavascriptBridge.callHandler('setTitle2', { 'name': 'zcr2' }, function (response) {
+                                                         log('JS got response2', response)
+                                                         })
+              }
+              document.body.appendChild(document.createElement('br'))
+              
+              var callbackButton = document.getElementById('buttons').appendChild(document.createElement('button'))
+              callbackButton.innerHTML = 'jtSetTitle'
+              callbackButton.onclick = function (e) {
+              e.preventDefault()
+              log('JS calling handler "jtSetTitle"')
+              window.WebViewJavascriptBridge.callHandler('jtSetTitle', { 'name': 'jtSetTitle' }, function (response) {
+                                                         log('JS got response3', response)
+                                                         })
+              }
         });
 
         var uniqueId = 1

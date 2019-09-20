@@ -144,38 +144,11 @@ static int logMaxLength = 500;
             if (!message[@"handlerName"]) {
                 continue;
             }
+            //TODO:待优化，生成的对象太多了
             NSString *clsname = [manager handlerNameForApiName:message[@"handlerName"]];
             Class handlerCls = NSClassFromString(clsname);
-            id<JSApiHandler> handler = [[handlerCls alloc]init];
-            [handler handler:message[@"data"] callback:callback];
-            ////
-            ///old
-//            WVJBResponseCallback responseCallback = NULL;
-//            NSString* callbackId = message[@"callbackId"];
-//            if (callbackId) {
-//                responseCallback = ^(id responseData) {
-//                    if (responseData == nil) {
-//                        responseData = [NSNull null];
-//                    }
-//
-//                    WVJBMessage* msg = @{ @"responseId":callbackId, @"responseData":responseData };
-//                    [self _queueMessage:msg];
-//                };
-//            } else {
-//                responseCallback = ^(id ignoreResponseData) {
-//                    // Do nothing
-//                };
-//            }
-//
-//            WVJBHandler handler = self.messageHandlers[message[@"handlerName"]];
-//
-//            if (!handler) {
-//                NSLog(@"WVJBNoHandlerException, No handler for message from JS: %@", message);
-//                continue;
-//            }
-//
-//            handler(message[@"data"], responseCallback);
-            ////
+            id<JSApiHandlerProtocol> handler = [[handlerCls alloc]init];
+            [handler handler:message[@"handlerName"] data:message[@"data"] callback:callback];
         }
     }
 }

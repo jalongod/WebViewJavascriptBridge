@@ -7,18 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "JSApiHandler.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^JSApiCallbackBlock)(id);
 
-@protocol JSApiHandler <NSObject>
-
-- (void)handler:(NSDictionary *)data callback:(JSApiCallbackBlock)callback;
-
-@end
-
-@interface JSApiSetTitleHandler : NSObject
+@interface JSApiSetTitleHandler : NSObject<JSApiHandlerProtocol>
 
 @end
 
