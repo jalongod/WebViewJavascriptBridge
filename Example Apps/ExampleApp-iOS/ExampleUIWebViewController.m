@@ -26,24 +26,48 @@
     _bridge = [WebViewJavascriptBridge bridgeForWebView:webView];
     [_bridge setWebViewDelegate:self];
     
-    [_bridge registerHandler:@"testObjcCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"testObjcCallback called: %@", data);
-        responseCallback(@"Response from testObjcCallback");
-    }];
-    
-    [_bridge registerHandler:@"testGlobalJsBridge" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"testGlobalJsBridge success");
-        responseCallback(@"testGlobalJsBridge success");
-    }];
-    
-    [_bridge callHandler:@"testJavascriptHandler" data:@{ @"foo":@"before ready" } responseCallback:^(id responseData) {
-        NSLog(@"testJavascriptHandler responseCallback act");
-    }];
-    
+    [self createHandler];
     
     [self renderButtons:webView];
     [self loadExamplePage:webView];
 }
+
+#pragma mark - Bridge Handler
+
+- (void)createHandler {
+    
+    [self.bridge registerHandler:@"testObjcCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"testObjcCallback called: %@", data);
+        responseCallback(@"Response from testObjcCallback");
+    }];
+    
+    [self.bridge registerHandler:@"testGlobalJsBridge" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"testGlobalJsBridge success");
+        responseCallback(@"testGlobalJsBridge success");
+    }];
+    
+}
+
+#pragma mark - JSApiHandler
+
+- (void)callJS {
+    [self.bridge callHandler:@"testJavascriptHandler" data:@{ @"foo":@"before ready" } responseCallback:^(id responseData) {
+        NSLog(@"testJavascriptHandler responseCallback act");
+    }];
+}
+
+- (void)disableSafetyTimeout {
+    [self.bridge disableJavscriptAlertBoxSafetyTimeout];
+}
+
+- (void)callHandler:(id)sender {
+    id data = @{ @"greetingFromObjC": @"Hi there, JS!" };
+    [_bridge callHandler:@"testJavascriptHandler" data:data responseCallback:^(id response) {
+        NSLog(@"testJavascriptHandler responded: %@", response);
+    }];
+}
+
+#pragma mark - WebView delegate
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     NSLog(@"webViewDidStartLoad");
@@ -53,6 +77,8 @@
     NSLog(@"webViewDidFinishLoad");
     [webView stringByEvaluatingJavaScriptFromString:@""];
 }
+
+#pragma mark - private
 
 - (void)renderButtons:(UIWebView*)webView {
     UIFont* font = [UIFont fontWithName:@"HelveticaNeue" size:11.0];
@@ -79,16 +105,6 @@
     safetyTimeoutButton.titleLabel.font = font;
 }
 
-- (void)disableSafetyTimeout {
-    [self.bridge disableJavscriptAlertBoxSafetyTimeout];
-}
-
-- (void)callHandler:(id)sender {
-    id data = @{ @"greetingFromObjC": @"Hi there, JS!" };
-    [_bridge callHandler:@"testJavascriptHandler" data:data responseCallback:^(id response) {
-        NSLog(@"testJavascriptHandler responded: %@", response);
-    }];
-}
 
 - (void)loadExamplePage:(UIWebView*)webView {
 //    NSString* htmlPath = [[NSBundle mainBundle] pathForResource:@"ExampleApp" ofType:@"html"];

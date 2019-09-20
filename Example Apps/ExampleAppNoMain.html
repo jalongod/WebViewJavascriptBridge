@@ -30,7 +30,7 @@
 </head>
 
 <body>
-    <h1>JtsjJSBridge Demo</h1>
+    <h1>WebViewJavascriptBridge Demo</h1>
     <script>
         window.onerror = function (err) {
             log('window.onerror: ' + err)
@@ -53,17 +53,6 @@
                 e.preventDefault()
                 log('JS calling handler "testObjcCallback"')
                 window.WebViewJavascriptBridge.callHandler('testObjcCallback', { 'foo': 'bar' }, function (response) {
-                    log('JS got response', response)
-                })
-            }
-            document.body.appendChild(document.createElement('br'))
-
-            var callbackButton = document.getElementById('buttons').appendChild(document.createElement('button'))
-            callbackButton.innerHTML = 'SetTitle'
-            callbackButton.onclick = function (e) {
-                e.preventDefault()
-                log('JS calling handler "SetTitle"')
-                window.WebViewJavascriptBridge.callHandler('setTitle', { 'name': 'zcr' }, function (response) {
                     log('JS got response', response)
                 })
             }

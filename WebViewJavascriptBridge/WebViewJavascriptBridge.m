@@ -7,6 +7,7 @@
 //
 
 #import "WebViewJavascriptBridge.h"
+#import "JSApiManager.h"
 
 #if defined(supportsWKWebView)
 #import "WKWebViewJavascriptBridge.h"
@@ -151,6 +152,7 @@
     _webView.delegate = self;
     _base = [[WebViewJavascriptBridgeBase alloc] init];
     _base.delegate = self;
+    [JSApiManager sharedInstance];//初始化ApiManager
 }
 
 - (void) _platformSpecificDealloc {
@@ -177,6 +179,7 @@
     NSURL *url = [request URL];
     __strong WVJB_WEBVIEW_DELEGATE_TYPE* strongDelegate = _webViewDelegate;
     if ([_base isWebViewJavascriptBridgeURL:url]) {
+        //如果是从JS传递过来的命令(可能是jsCall，也可能是ocCallback)
         if ([_base isQueueMessageURL:url]) {
             NSString *messageQueueString = [self _evaluateJavascript:[_base webViewJavascriptFetchQueyCommand]];
             [_base flushMessageQueue:messageQueueString];
