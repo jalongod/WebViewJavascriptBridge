@@ -78,14 +78,6 @@
     [_base sendData:data responseCallback:responseCallback handlerName:handlerName];
 }
 
-- (void)registerHandler:(NSString *)handlerName handler:(WVJBHandler)handler {
-    _base.messageHandlers[handlerName] = [handler copy];
-}
-
-- (void)removeHandler:(NSString *)handlerName {
-    [_base.messageHandlers removeObjectForKey:handlerName];
-}
-
 - (void)disableJavscriptAlertBoxSafetyTimeout {
     [_base disableJavscriptAlertBoxSafetyTimeout];
 }

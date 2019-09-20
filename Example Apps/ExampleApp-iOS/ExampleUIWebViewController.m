@@ -26,35 +26,11 @@
     _bridge = [WebViewJavascriptBridge bridgeForWebView:webView];
     [_bridge setWebViewDelegate:self];
     
-    [self createHandler];
-    
     [self renderButtons:webView];
     [self loadExamplePage:webView];
 }
 
-#pragma mark - Bridge Handler
-
-- (void)createHandler {
-    
-    [self.bridge registerHandler:@"testObjcCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"testObjcCallback called: %@", data);
-        responseCallback(@"Response from testObjcCallback");
-    }];
-    
-    [self.bridge registerHandler:@"testGlobalJsBridge" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"testGlobalJsBridge success");
-        responseCallback(@"testGlobalJsBridge success");
-    }];
-    
-}
-
 #pragma mark - JSApiHandler
-
-- (void)callJS {
-    [self.bridge callHandler:@"testJavascriptHandler" data:@{ @"foo":@"before ready" } responseCallback:^(id responseData) {
-        NSLog(@"testJavascriptHandler responseCallback act");
-    }];
-}
 
 - (void)disableSafetyTimeout {
     [self.bridge disableJavscriptAlertBoxSafetyTimeout];
